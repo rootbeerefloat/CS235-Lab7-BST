@@ -1,11 +1,13 @@
 #pragma once
 
-#include "NodeInterface.h"
+#include "Node.h"
 #include "BSTInterface.h"
 
 using namespace std;
 
 class BST : public BSTInterface {
+private:
+    Node* root;
 public:
 	BST();
 	~BST();
