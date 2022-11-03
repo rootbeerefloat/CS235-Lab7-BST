@@ -24,13 +24,13 @@ public:
 	*
 	* @return the left child of this node or null if it doesn't have one.
 	*/
-	NodeInterface * getLeftChild();
+	Node * getLeftChild();
 
 	/*
 	* Returns the right child of this node or null if it doesn't have one.
 	*
 	* @return the right child of this node or null if it doesn't have one.
 	*/
-	NodeInterface * getRightChild();
+	Node * getRightChild();
 
 };
