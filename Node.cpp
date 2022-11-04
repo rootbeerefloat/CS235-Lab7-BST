@@ -1,10 +1,9 @@
 #pragma once
 
-#include <iostream>
 #include "Node.h"
 
-Node::Node(){
-    data = 0;
+Node::Node(int _data){
+    data = _data;
     left = NULL;
     right = NULL;
 }
@@ -18,7 +17,7 @@ Node::~Node(){
 *
 * @return the data that is stored in this node.
 */
-int Node::getData(){
+int Node::getData() const{
     return data;
 }
 
@@ -27,7 +26,7 @@ int Node::getData(){
 *
 * @return the left child of this node or null if it doesn't have one.
 */
-Node * Node::getLeftChild(){
+NodeInterface * Node::getLeftChild() const{
     return left;
 }
 
@@ -36,6 +35,13 @@ Node * Node::getLeftChild(){
 *
 * @return the right child of this node or null if it doesn't have one.
 */
-Node * Node::getRightChild(){
+NodeInterface * Node::getRightChild() const{
     return right;
+}
+
+void Node::setLeftChild(Node* _left){
+    left = _left;
+}
+void Node::setRightChild(Node* _right){
+    right = _right;
 }

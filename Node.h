@@ -3,13 +3,15 @@
 #include <iostream>
 #include "NodeInterface.h"
 
-class Node : public NodeInterface {
+using namespace std;
+
+class Node: public NodeInterface {
 private:
     int data;
     Node* left;
     Node* right;
 public:
-	Node();
+	Node(int _data);
 	~Node();
 
 	/*
@@ -17,20 +19,23 @@ public:
 	*
 	* @return the data that is stored in this node.
 	*/
-	int getData();
+	int getData() const;
 
 	/*
 	* Returns the left child of this node or null if it doesn't have one.
 	*
 	* @return the left child of this node or null if it doesn't have one.
 	*/
-	Node * getLeftChild();
+	NodeInterface * getLeftChild() const;
 
 	/*
 	* Returns the right child of this node or null if it doesn't have one.
 	*
 	* @return the right child of this node or null if it doesn't have one.
 	*/
-	Node * getRightChild();
+	NodeInterface * getRightChild() const;
+
+	void setLeftChild(Node* _left);
+	void setRightChild(Node* _right);
 
 };
