@@ -7,7 +7,9 @@ using namespace std;
 
 class BST : public BSTInterface {
 private:
-    Node* root;
+    NodeInterface* rootInterface;
+	Node* root;
+	bool search(Node*& root, int newData);
 public:
 	BST();
 	~BST();
@@ -20,7 +22,9 @@ public:
 	*
 	* @return the root node for this tree.
 	*/
-	virtual NodeInterface * getRootNode();
+	NodeInterface * getRootNode() const;
+
+	Node * getRoot() const;
 
 	/*
 	* Attempts to add the given int to the BST tree
@@ -28,7 +32,7 @@ public:
 	* @return true if added
 	* @return false if unsuccessful (i.e. the int is already in tree)
 	*/
-	virtual bool add(int data);
+	bool add(int data);
 
 	/*
 	* Attempts to remove the given int from the BST tree
@@ -36,10 +40,10 @@ public:
 	* @return true if successfully removed
 	* @return false if remove is unsuccessful(i.e. the int is not in the tree)
 	*/
-	virtual bool remove(int data);
+	bool remove(int data);
 
 	/*
 	* Removes all nodes from the tree, resulting in an empty tree.
 	*/
-	virtual void clear();
+	void clear();
 };
