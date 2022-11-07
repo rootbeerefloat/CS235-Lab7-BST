@@ -95,7 +95,7 @@ bool BST::searchRemove(Node *&current, int oldData) {
     }
     if (current->getData() == oldData) {
         if (current->getLeftChild() == NULL && current->getRightChild() == NULL) {
-            cout << "Found " << oldData << " and it has no children" << endl;
+            //cout << "Found " << oldData << " and it has no children" << endl;
             if (previousNode->getLeftChild() == current) {
                 previousNode->setLeftChild(NULL);
             }
@@ -107,7 +107,7 @@ bool BST::searchRemove(Node *&current, int oldData) {
             return true;
         }
         else if (current->getLeftChild() == NULL) {
-            cout << "Found " << oldData << " and it has a right child" << endl;
+            //cout << "Found " << oldData << " and it has a right child" << endl;
             Node *temp = current->getRightChild();
             current->setData(temp->getData());
             current->setRightChild(temp->getRightChild());
@@ -116,7 +116,7 @@ bool BST::searchRemove(Node *&current, int oldData) {
             return true;
         }
         else if (current->getRightChild() == NULL) {
-            cout << "Found " << oldData << " and it has a left child" << endl;
+            //cout << "Found " << oldData << " and it has a left child" << endl;
             Node *temp = current->getLeftChild();
             current->setData(temp->getData());
             current->setRightChild(temp->getRightChild());
@@ -125,7 +125,7 @@ bool BST::searchRemove(Node *&current, int oldData) {
             return true;
         }
         else {
-            cout << "Found " << oldData << " and it has two children" << endl;
+            //cout << "Found " << oldData << " and it has two children" << endl;
             Node *temp = current->getRightChild();
             while (temp->getLeftChild() != NULL) {
                 temp = temp->getLeftChild();
