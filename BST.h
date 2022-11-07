@@ -10,6 +10,7 @@ private:
 	Node* root;
 	bool search(Node*& root, int newData);
 	bool searchRemove(Node*& root, int oldData);
+	void recursiveClear(Node*& _root);
 	Node* previousNode;
 public:
 	BST();

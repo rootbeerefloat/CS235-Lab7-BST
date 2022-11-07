@@ -41,7 +41,19 @@ bool BST::remove(int data) {
 /*
 * Removes all nodes from the tree, resulting in an empty tree.
 */
-void BST::clear() {}
+void BST::clear() {
+    recursiveClear(root);
+}
+
+void BST::recursiveClear(Node*& _root) {
+    if (_root == NULL) return;
+    Node* left = _root->getLeftChild();
+    Node* right = _root->getRightChild();
+    recursiveClear(left);
+    recursiveClear(right);
+    delete root;
+    root = NULL;
+}
 
 bool BST::search(Node *&current, int newData) {
     if (root == NULL) {
