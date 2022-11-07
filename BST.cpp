@@ -10,7 +10,7 @@ BST::~BST() {}
 *
 * @return the root node for this tree.
 */
-NodeInterface * BST::getRootNode() const {
+Node * BST::getRootNode() const {
     return root;
 }
 

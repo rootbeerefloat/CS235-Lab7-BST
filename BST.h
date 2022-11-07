@@ -7,7 +7,6 @@ using namespace std;
 
 class BST : public BSTInterface {
 private:
-    NodeInterface* rootInterface;
 	Node* root;
 	bool search(Node*& root, int newData);
 	bool searchRemove(Node*& root, int oldData);
@@ -24,7 +23,7 @@ public:
 	*
 	* @return the root node for this tree.
 	*/
-	NodeInterface * getRootNode() const;
+	Node * getRootNode() const;
 
 	Node * getRoot() const;
 
