@@ -10,6 +10,8 @@ private:
     NodeInterface* rootInterface;
 	Node* root;
 	bool search(Node*& root, int newData);
+	bool searchRemove(Node*& root, int oldData);
+	Node* previousNode;
 public:
 	BST();
 	~BST();
