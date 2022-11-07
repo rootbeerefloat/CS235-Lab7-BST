@@ -10,8 +10,6 @@ private:
     int data;
     Node* left;
     Node* right;
-	NodeInterface* leftChild;
-	NodeInterface* rightChild;
 public:
 	Node(int _data);
 	~Node();
@@ -28,19 +26,17 @@ public:
 	*
 	* @return the left child of this node or null if it doesn't have one.
 	*/
-	NodeInterface * getLeftChild() const;
+	Node * getLeftChild() const;
 
 	/*
 	* Returns the right child of this node or null if it doesn't have one.
 	*
 	* @return the right child of this node or null if it doesn't have one.
 	*/
-	NodeInterface * getRightChild() const;
-
-	Node * getLeft() const;
-	Node * getRight() const;
+	Node * getRightChild() const;
 
 	void setLeftChild(Node* _left);
 	void setRightChild(Node* _right);
+	void setData(int _data);
 
 };

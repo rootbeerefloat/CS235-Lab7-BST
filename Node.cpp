@@ -4,8 +4,6 @@ Node::Node(int _data){
     data = _data;
     left = NULL;
     right = NULL;
-    leftChild = NULL;
-    rightChild = NULL;
 }
 Node::~Node(){
     delete left;
@@ -26,8 +24,8 @@ int Node::getData() const{
 *
 * @return the left child of this node or null if it doesn't have one.
 */
-NodeInterface * Node::getLeftChild() const{
-    return leftChild;
+Node * Node::getLeftChild() const{
+    return left;
 }
 
 /*
@@ -35,8 +33,8 @@ NodeInterface * Node::getLeftChild() const{
 *
 * @return the right child of this node or null if it doesn't have one.
 */
-NodeInterface * Node::getRightChild() const{
-    return rightChild;
+Node * Node::getRightChild() const{
+    return right;
 }
 
 void Node::setLeftChild(Node* _left){
@@ -46,10 +44,6 @@ void Node::setRightChild(Node* _right){
     right = _right;
 }
 
-Node * Node::getLeft() const{
-    return left;
-}
-
-Node * Node::getRight() const{
-    return right;
+void Node::setData(int _data){
+    data = _data;
 }
