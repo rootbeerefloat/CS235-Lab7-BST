@@ -93,46 +93,110 @@ bool BST::searchRemove(Node *&current, int oldData) {
     if (root == NULL) {
         return false;
     }
+    if (current == NULL){
+        return false;
+    }
+    // cout << "Current is " << current->getData() << " and oldData is " << oldData << endl;
     if (current->getData() == oldData) {
         if (current->getLeftChild() == NULL && current->getRightChild() == NULL) {
-            //cout << "Found " << oldData << " and it has no children" << endl;
-            if (previousNode->getLeftChild() == current) {
-                previousNode->setLeftChild(NULL);
+            //cout << "Found " << oldData << " at " << current << " and it has no children" << endl;
+            if (current == root) {
+                root = NULL;
             }
-            else {
-                previousNode->setRightChild(NULL);
+            else{
+                if (previousNode->getLeftChild() == current) {
+                    previousNode->setLeftChild(NULL);
+                }
+                else {
+                    previousNode->setRightChild(NULL);
+                }
             }
             delete current;
-            current = NULL;
             return true;
         }
         else if (current->getLeftChild() == NULL) {
             //cout << "Found " << oldData << " and it has a right child" << endl;
-            Node *temp = current->getRightChild();
-            current->setData(temp->getData());
-            current->setRightChild(temp->getRightChild());
-            current->setLeftChild(temp->getLeftChild());
-            delete temp;
+            //cout << "Current is " << current << " (" << current->getData() << ")" << endl;
+            Node * temp = current->getRightChild();
+            if (current != root){
+                if (previousNode->getLeftChild() == current) {
+                    previousNode->setLeftChild(temp);
+                }
+                else {
+                    previousNode->setRightChild(temp);
+                }
+            }
+            current->setLeftChild(NULL);
+            current->setRightChild(NULL);
+            //cout << "Deleting " << current << " (" << current->getData() << ")" << endl;
+            if (current == root) {
+                delete current;
+                root = temp;
+            }
+            else {
+                delete current;
+            }
             return true;
         }
         else if (current->getRightChild() == NULL) {
             //cout << "Found " << oldData << " and it has a left child" << endl;
-            Node *temp = current->getLeftChild();
-            current->setData(temp->getData());
-            current->setRightChild(temp->getRightChild());
-            current->setLeftChild(temp->getLeftChild());
-            delete temp;
+            //cout << "Current is " << current << " (" << current->getData() << ")" << endl;
+            Node * temp = current->getLeftChild();
+            if (current != root){
+                if (previousNode->getLeftChild() == current) {
+                    previousNode->setLeftChild(temp);
+                }
+                else {
+                    previousNode->setRightChild(temp);
+                }
+            }
+            current->setLeftChild(NULL);
+            current->setRightChild(NULL);
+            //cout << "Deleting " << current << " (" << current->getData() << ")" << endl;
+            if (current == root) {
+                delete current;
+                root = temp;
+            }
+            else {
+                delete current;
+            }
             return true;
         }
         else {
             //cout << "Found " << oldData << " and it has two children" << endl;
-            Node *temp = current->getRightChild();
-            while (temp->getLeftChild() != NULL) {
-                temp = temp->getLeftChild();
+            Node *temp = current->getLeftChild();
+            while (temp->getRightChild() != NULL) {
+                temp = temp->getRightChild();
             }
+            //cout << "temp is " << temp << " (" << temp->getData() << ")" << endl;
             current->setData(temp->getData());
-            Node* temp2 = current->getRightChild();
-            return searchRemove(temp2, temp->getData());
+            if (temp == current->getLeftChild()){
+                //cout << "case 1" << endl;
+                Node* temp2 = current->getLeftChild();
+                if (current->getLeftChild()->getLeftChild() == NULL) {
+                    current->setLeftChild(NULL);
+                }
+                else {
+                    current->setLeftChild(current->getLeftChild()->getLeftChild());
+                }
+                temp2->setRightChild(NULL);
+                temp2->setLeftChild(NULL);
+                delete temp2;
+            }
+            else if (temp == current->getLeftChild()->getRightChild()){
+                //cout << "case 2" << endl;
+                Node* temp2 = current->getLeftChild()->getRightChild();
+                current->getLeftChild()->setRightChild(NULL);
+                temp2->setRightChild(NULL);
+                temp2->setLeftChild(NULL);
+                delete temp2;
+            }
+            else {
+                //cout << "case 3" << endl;
+                Node* temp2 = current->getLeftChild();
+                searchRemove(temp2, temp->getData());
+            }
+            return true;
         }
     }
     else if (current->getData() > oldData) {
