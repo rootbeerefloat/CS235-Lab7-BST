@@ -169,17 +169,21 @@ bool BST::searchRemove(Node *&current, int oldData) {
             return true;
         }
         else {
-            //cout <<"Found " << oldData << " and it has two children" << endl;
+            // cout <<"Found " << oldData << " and it has two children" << endl;
             Node *  nextLowest = current->getLeftChild();
             while (nextLowest->getRightChild() != NULL) {
                 nextLowest = nextLowest->getRightChild();
             }
+            // cout <<"nextLowest is " << nextLowest << " (" << nextLowest->getData() << ")" << endl;
+
             Node * nextLowestParent = NULL;
             if (current->getLeftChild() == nextLowest){
                 nextLowestParent = current;
+                nextLowestParent->setLeftChild(nextLowest->getLeftChild());
             }
             else if (current->getLeftChild()->getRightChild() == nextLowest) {
                 nextLowestParent = current->getLeftChild();
+                nextLowestParent->setRightChild(nextLowest->getLeftChild());
             }
             else {
                 Node * templook = current->getLeftChild();
@@ -187,12 +191,17 @@ bool BST::searchRemove(Node *&current, int oldData) {
                     templook = templook->getRightChild();
                 }
                 nextLowestParent = templook;
+                nextLowestParent->setRightChild(nextLowest->getLeftChild());
             }
-            //cout <<"nextLowest is " << nextLowest << " (" << nextLowest->getData() << ")" << endl;
-            nextLowestParent->setRightChild(nextLowest->getLeftChild());
+            // cout <<"nextLowestParent is " << nextLowestParent << " (" << nextLowestParent->getData() << ")" << endl;
+            
+
+            // cout << "Setting nextLowest's children to current's children" << endl;
             nextLowest->setLeftChild(current->getLeftChild());
             nextLowest->setRightChild(current->getRightChild());
+
             if (current != root){
+                // cout << "Setting previousNode's child to nextLowest" << endl;
                 if (previousNode->getLeftChild() == current) {
                     previousNode->setLeftChild(nextLowest);
                 }
@@ -201,6 +210,7 @@ bool BST::searchRemove(Node *&current, int oldData) {
                 }
             }
             else {
+                // cout << "Setting root to nextLowest" << endl;
                 root = nextLowest;
             }
             return true;
