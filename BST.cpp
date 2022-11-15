@@ -174,10 +174,35 @@ bool BST::searchRemove(Node *&current, int oldData) {
             while (nextLowest->getRightChild() != NULL) {
                 nextLowest = nextLowest->getRightChild();
             }
+            Node * nextLowestParent = NULL;
+            if (current->getLeftChild() == nextLowest){
+                nextLowestParent = current;
+            }
+            else if (current->getLeftChild()->getRightChild() == nextLowest) {
+                nextLowestParent = current->getLeftChild();
+            }
+            else {
+                Node * templook = current->getLeftChild();
+                while (templook->getRightChild() != nextLowest) {
+                    templook = templook->getRightChild();
+                }
+                nextLowestParent = templook;
+            }
             //cout <<"nextLowest is " << nextLowest << " (" << nextLowest->getData() << ")" << endl;
-            int data = nextLowest->getData();
-            searchRemove(root, data);
-            current->setData(data);
+            nextLowestParent->setRightChild(nextLowest->getLeftChild());
+            nextLowest->setLeftChild(current->getLeftChild());
+            nextLowest->setRightChild(current->getRightChild());
+            if (current != root){
+                if (previousNode->getLeftChild() == current) {
+                    previousNode->setLeftChild(nextLowest);
+                }
+                else {
+                    previousNode->setRightChild(nextLowest);
+                }
+            }
+            else {
+                root = nextLowest;
+            }
             return true;
         }
     }

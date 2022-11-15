@@ -40,7 +40,3 @@ void Node::setLeftChild(Node* _left){
 void Node::setRightChild(Node* _right){
     right = _right;
 }
-
-void Node::setData(int _data){
-    data = _data;
-}

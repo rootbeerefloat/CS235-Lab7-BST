@@ -37,6 +37,4 @@ public:
 
 	void setLeftChild(Node* _left);
 	void setRightChild(Node* _right);
-	void setData(int _data);
-
 };
