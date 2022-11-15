@@ -136,8 +136,6 @@ bool BST::searchRemove(Node *&current, int oldData) {
                     previousNode->setRightChild(temp);
                 }
             }
-            current->setLeftChild(NULL);
-            current->setRightChild(NULL);
             //cout <<"Deleting " << current << " (" << current->getData() << ")" << endl;
             if (current == root) {
                 delete current;
@@ -160,8 +158,6 @@ bool BST::searchRemove(Node *&current, int oldData) {
                     previousNode->setRightChild(temp);
                 }
             }
-            current->setLeftChild(NULL);
-            current->setRightChild(NULL);
             //cout <<"Deleting " << current << " (" << current->getData() << ")" << endl;
             if (current == root) {
                 delete current;
