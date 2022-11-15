@@ -110,7 +110,6 @@ bool BST::searchRemove(Node *&current, int oldData) {
             if (current == root) {
                 Node * temps = root;
                 root = NULL;
-                //cout <<"Deleting " << temps << endl;
                 delete temps;
                 return true;
             }
@@ -183,32 +182,6 @@ bool BST::searchRemove(Node *&current, int oldData) {
             int data = nextLowest->getData();
             searchRemove(root, data);
             current->setData(data);
-            // if (temp == current->getLeftChild()){
-            //     //cout <<"case 1" << endl;
-            //     Node* temp2 = current->getLeftChild();
-            //     if (current->getLeftChild()->getLeftChild() == NULL) {
-            //         current->setLeftChild(NULL);
-            //     }
-            //     else {
-            //         current->setLeftChild(current->getLeftChild()->getLeftChild());
-            //     }
-            //     temp2->setRightChild(NULL);
-            //     temp2->setLeftChild(NULL);
-            //     delete temp2;
-            // }
-            // else if (temp == current->getLeftChild()->getRightChild()){
-            //     //cout <<"case 2" << endl;
-            //     Node* temp2 = current->getLeftChild()->getRightChild();
-            //     current->getLeftChild()->setRightChild(NULL);
-            //     temp2->setRightChild(NULL);
-            //     temp2->setLeftChild(NULL);
-            //     delete temp2;
-            // }
-            // else {
-            //     //cout <<"case 3" << endl;
-            //     Node* temp2 = current->getLeftChild();
-            //     searchRemove(temp2, temp->getData());
-            // }
             return true;
         }
     }
