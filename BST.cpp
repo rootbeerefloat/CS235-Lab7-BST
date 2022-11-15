@@ -52,46 +52,31 @@ void BST::clear() {
 
 void BST::recursiveClear(Node*& _root) {
     if (_root == NULL) {
-        //cout <<"Node is null" << endl;
         return;
     }
-    //else cout <<"Input is " << _root->getData() << " (" << _root << ")" << endl;
-    Node* left = _root->getLeftChild();
-    //if (_root == root) //cout <<"Got left child as " << left << endl;
-    //cout <<"Got left child as " << left << endl;
-    Node* right = _root->getRightChild();
-    _root->setLeftChild(NULL);
-    _root->setRightChild(NULL);
-    //if (_root == root) //cout <<"Got right child as " << right << ", clearing left" << endl;
-    //cout <<"Got right child as " << right << ", clearing left" << endl;
-    recursiveClear(left);
-    //if (_root == root) //cout <<"Left cleared, Calling clear right" << endl;
-    //cout <<"Left cleared, Calling clear right" << endl;
-    recursiveClear(right);
-    //if (_root == root) //cout <<"Right clear, deleting" << endl;
-    //cout <<"Right clear, deleting " << _root << endl;
-    //cout <<"Deleting node: " << _root->getData() << " (" << _root << ")" << endl;
+    if (_root->getLeftChild() != NULL) {
+        Node* left = _root->getLeftChild();
+        recursiveClear(left);
+    }
+    if (_root->getRightChild() != NULL) {
+        Node* right = _root->getRightChild();
+        recursiveClear(right);
+    }
     delete _root;
-    //if (_root == root) //cout <<"Deleted!" << endl;
-    //cout <<"Deleted!" << endl;
     return;
 }
 
 bool BST::search(Node *&current, int newData) {
     if (root == NULL) {
         root = new Node(newData);
-        //cout <<"Allocating " << root << endl;
-        //cout <<"root is null, inserting " << newData << endl;
         return true;
     }
     if (current->getData() == newData) {
-        //cout <<"Current is equal to newData (" << newData << ")" << endl;
         return false;
     }
     else if (current->getData() > newData) {
         if (current->getLeftChild() == NULL) {
             current->setLeftChild(new Node(newData));
-            //cout <<"Inserting " << newData << " to the left of " << current->getData() << endl;
             return true;
         }
         else {
@@ -102,7 +87,6 @@ bool BST::search(Node *&current, int newData) {
     else {
         if (current->getRightChild() == NULL) {
             current->setRightChild(new Node(newData));
-            //cout <<"Inserting " << newData << " to the right of " << current->getData() << endl;
             return true;
         }
         else {

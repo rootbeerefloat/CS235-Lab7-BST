@@ -5,10 +5,7 @@ Node::Node(int _data){
     left = NULL;
     right = NULL;
 }
-Node::~Node(){
-    delete left;
-    delete right;
-}
+Node::~Node(){}
 
 /*
 * Returns the data that is stored in this node
