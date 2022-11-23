@@ -11,7 +11,8 @@ private:
 	Node* root;
 	bool searchAdd(Node*& root, int newData);
 	bool searchRemove(Node*& root, int oldData);
-	void recursiveClear(Node*& _root, queue<Node*>& thingsToDelete);
+	void recursiveClear(Node*& _root);
+	// void recursiveClear(Node*& _root, queue<Node*>& thingsToDelete);
 public:
 	BST();
 	~BST();

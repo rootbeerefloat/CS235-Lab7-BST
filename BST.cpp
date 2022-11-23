@@ -1,5 +1,5 @@
 #include "BST.h"
-#include <queue>
+// #include <queue>
 
 BST::BST() {
     root = NULL;
@@ -46,33 +46,47 @@ bool BST::remove(int data) {
 */
 void BST::clear() {
     //cout << "Root is "  << root << endl;
-    queue<Node*> thingsToDelete;
-    recursiveClear(root, thingsToDelete);
-    for (int i = 0; i < thingsToDelete.size(); i++) {
-        //delete thingsToDelete.front();
-        cout << "Deleting " << thingsToDelete.front()->getData() << endl;
-        thingsToDelete.pop();
-    }
-    root = NULL;
+    // queue<Node*> thingsToDelete;
+    // recursiveClear(root, thingsToDelete);
+    // for (int i = 0; i < thingsToDelete.size(); i++) {
+    //     //delete thingsToDelete.front();
+    //     cout << "Deleting " << thingsToDelete.front()->getData() << endl;
+    //     thingsToDelete.pop();
+    // }
+    // root = NULL;
     // recursiveClear(root);
     // root = NULL;
+
+    recursiveClear(root);
 }
 
-void BST::recursiveClear(Node*& searchRoot, queue<Node*>& thingsToDelete) {
-    if (searchRoot == NULL) {
+void BST::recursiveClear(Node*& _root) {
+    if (_root == NULL) {
         return;
     }
-    if (searchRoot->getLeftChild() != NULL) {
-        Node* left = searchRoot->getLeftChild();
-        recursiveClear(left, thingsToDelete);
-    }
-    if (searchRoot->getRightChild() != NULL) {
-        Node* right = searchRoot->getRightChild();
-        recursiveClear(right, thingsToDelete);
-    }
-    thingsToDelete.push(searchRoot);
-    return;
+    Node* leftChild = _root->getLeftChild();
+    Node* rightChild = _root->getRightChild();
+    recursiveClear(leftChild);
+    recursiveClear(rightChild);
+    delete _root;
+    _root = NULL;
 }
+
+// void BST::recursiveClear(Node*& searchRoot, queue<Node*>& thingsToDelete) {
+//     if (searchRoot == NULL) {
+//         return;
+//     }
+//     if (searchRoot->getLeftChild() != NULL) {
+//         Node* left = searchRoot->getLeftChild();
+//         recursiveClear(left, thingsToDelete);
+//     }
+//     if (searchRoot->getRightChild() != NULL) {
+//         Node* right = searchRoot->getRightChild();
+//         recursiveClear(right, thingsToDelete);
+//     }
+//     thingsToDelete.push(searchRoot);
+//     return;
+// }
 
 bool BST::searchAdd(Node *&current, int newData) {
     if (root == NULL) {
@@ -173,8 +187,11 @@ bool BST::searchRemove(Node *&current, int oldData){
             replacement = replacement->getRightChild();
         }
         Node* replacementParent = deleteMe;
-        while (replacementParent->getRightChild() != replacement){
-            replacementParent = replacementParent->getRightChild();
+        if(deleteMe->getLeftChild() != replacement){
+            replacementParent = deleteMe->getLeftChild();
+            while (replacementParent->getRightChild() != replacement){
+                replacementParent = replacementParent->getRightChild();
+            }
         }
         if (replacementParent == deleteMe){
             replacementParent->setLeftChild(replacement->getLeftChild());
