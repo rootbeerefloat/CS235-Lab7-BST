@@ -1,4 +1,5 @@
 #include "BST.h"
+#include <queue>
 
 BST::BST() {
     root = NULL;
@@ -27,7 +28,7 @@ Node * BST::getRoot() const {
 * @return false if unsuccessful (i.e. the int is already in tree)
 */
 bool BST::add(int data) {
-    return search(root, data);
+    return searchAdd(root, data);
 }
 
 /*
@@ -44,29 +45,36 @@ bool BST::remove(int data) {
 * Removes all nodes from the tree, resulting in an empty tree.
 */
 void BST::clear() {
-    delete root;
+    //cout << "Root is "  << root << endl;
+    queue<Node*> thingsToDelete;
+    recursiveClear(root, thingsToDelete);
+    for (int i = 0; i < thingsToDelete.size(); i++) {
+        //delete thingsToDelete.front();
+        cout << "Deleting " << thingsToDelete.front()->getData() << endl;
+        thingsToDelete.pop();
+    }
     root = NULL;
     // recursiveClear(root);
     // root = NULL;
 }
 
-void BST::recursiveClear(Node*& _root) {
-    if (_root == NULL) {
+void BST::recursiveClear(Node*& searchRoot, queue<Node*>& thingsToDelete) {
+    if (searchRoot == NULL) {
         return;
     }
-    if (_root->getLeftChild() != NULL) {
-        Node* left = _root->getLeftChild();
-        recursiveClear(left);
+    if (searchRoot->getLeftChild() != NULL) {
+        Node* left = searchRoot->getLeftChild();
+        recursiveClear(left, thingsToDelete);
     }
-    if (_root->getRightChild() != NULL) {
-        Node* right = _root->getRightChild();
-        recursiveClear(right);
+    if (searchRoot->getRightChild() != NULL) {
+        Node* right = searchRoot->getRightChild();
+        recursiveClear(right, thingsToDelete);
     }
-    delete _root;
+    thingsToDelete.push(searchRoot);
     return;
 }
 
-bool BST::search(Node *&current, int newData) {
+bool BST::searchAdd(Node *&current, int newData) {
     if (root == NULL) {
         root = new Node(newData);
         return true;
@@ -81,159 +89,117 @@ bool BST::search(Node *&current, int newData) {
         }
         else {
             Node *temp = current->getLeftChild();
-            return search(temp, newData);
+            return searchAdd(temp, newData);
         }
     }
     else {
-        if (current->getRightChild() == NULL) {
+        if 
+        (current->getRightChild() == NULL) 
+        {
             current->setRightChild(new Node(newData));
             return true;
         }
         else {
             Node *temp = current->getRightChild();
-            return search(temp, newData);
+            return searchAdd(temp, newData);
         }
     }
 }
 
-bool BST::searchRemove(Node *&current, int oldData) {
-    if (root == NULL) {
+bool BST::searchRemove(Node *&current, int oldData){
+    if (current == NULL) {
         return false;
     }
-    if (current == NULL){
-        return false;
-    }
-    //cout <<"Current is " << current->getData() << " and oldData is " << oldData << endl;
-    if (current->getData() == oldData) {
-        if (current->getLeftChild() == NULL && current->getRightChild() == NULL) {
-            //cout <<"Found " << oldData << " at " << current << " and it has no children" << endl;
-            if (current == root) {
-                Node * temps = root;
-                root = NULL;
-                delete temps;
-                return true;
-            }
-            else{
-                if (previousNode->getLeftChild() == current) {
-                    previousNode->setLeftChild(NULL);
-                }
-                else {
-                    previousNode->setRightChild(NULL);
-                }
-            }
-            delete current;
-            return true;
-        }
-        else if (current->getLeftChild() == NULL) {
-            //cout <<"Found " << oldData << " and it has a right child" << endl;
-            //cout <<"Current is " << current << " (" << current->getData() << ")" << endl;
-            Node * temp = current->getRightChild();
-            if (current != root){
-                if (previousNode->getLeftChild() == current) {
-                    previousNode->setLeftChild(temp);
-                }
-                else {
-                    previousNode->setRightChild(temp);
-                }
-            }
-            //cout <<"Deleting " << current << " (" << current->getData() << ")" << endl;
-            if (current == root) {
-                delete current;
-                root = temp;
-            }
-            else {
-                delete current;
-            }
-            return true;
-        }
-        else if (current->getRightChild() == NULL) {
-            //cout <<"Found " << oldData << " and it has a left child" << endl;
-            //cout <<"Current is " << current << " (" << current->getData() << ")" << endl;
-            Node * temp = current->getLeftChild();
-            if (current != root){
-                if (previousNode->getLeftChild() == current) {
-                    previousNode->setLeftChild(temp);
-                }
-                else {
-                    previousNode->setRightChild(temp);
-                }
-            }
-            //cout <<"Deleting " << current << " (" << current->getData() << ")" << endl;
-            if (current == root) {
-                delete current;
-                root = temp;
-            }
-            else {
-                delete current;
-            }
-            return true;
-        }
-        else {
-            // cout <<"Found " << oldData << " and it has two children" << endl;
-            Node *  nextLowest = current->getLeftChild();
-            while (nextLowest->getRightChild() != NULL) {
-                nextLowest = nextLowest->getRightChild();
-            }
-            // cout <<"nextLowest is " << nextLowest << " (" << nextLowest->getData() << ")" << endl;
+    Node* deleteMe = NULL;
+    bool deleteLeft = false;
+    bool deleteRight = false;
+    Node* newRoot = NULL;
 
-            Node * nextLowestParent = NULL;
-            if (current->getLeftChild() == nextLowest){
-                nextLowestParent = current;
-                nextLowestParent->setLeftChild(nextLowest->getLeftChild());
-            }
-            else if (current->getLeftChild()->getRightChild() == nextLowest) {
-                nextLowestParent = current->getLeftChild();
-                nextLowestParent->setRightChild(nextLowest->getLeftChild());
-            }
-            else {
-                Node * templook = current->getLeftChild();
-                while (templook->getRightChild() != nextLowest) {
-                    templook = templook->getRightChild();
-                }
-                nextLowestParent = templook;
-                nextLowestParent->setRightChild(nextLowest->getLeftChild());
-            }
-            // cout <<"nextLowestParent is " << nextLowestParent << " (" << nextLowestParent->getData() << ")" << endl;
-            
-
-            // cout << "Setting nextLowest's children to current's children" << endl;
-            nextLowest->setLeftChild(current->getLeftChild());
-            nextLowest->setRightChild(current->getRightChild());
-
-            if (current != root){
-                // cout << "Setting previousNode's child to nextLowest" << endl;
-                if (previousNode->getLeftChild() == current) {
-                    previousNode->setLeftChild(nextLowest);
-                }
-                else {
-                    previousNode->setRightChild(nextLowest);
-                }
-            }
-            else {
-                // cout << "Setting root to nextLowest" << endl;
-                root = nextLowest;
-            }
-            return true;
+    if (current == root && current->getData() == oldData) {
+        deleteMe = current;
+    }
+    else if (current->getLeftChild() != NULL && current->getLeftChild()->getData() == oldData){
+        deleteMe = current->getLeftChild();
+        deleteLeft = true;
+    }
+    else if (current->getRightChild() != NULL && current->getRightChild()->getData() == oldData){
+        deleteMe = current->getRightChild();
+        deleteRight = true;
+    }
+    else{
+        if (current->getData() > oldData){
+            Node* newSearchRoot = current->getLeftChild();
+            return searchRemove(newSearchRoot, oldData);
+        }
+        else{
+            Node* newSearchRoot = current->getRightChild();
+            return searchRemove(newSearchRoot, oldData);
         }
     }
-    else if (current->getData() > oldData) {
-        if (current->getLeftChild() == NULL) {
-            return false;
+    
+    if(deleteMe->getLeftChild() == NULL && deleteMe -> getRightChild() == NULL){
+        if (deleteLeft){
+            current->setLeftChild(NULL);
         }
-        else {
-            Node *temp = current->getLeftChild();
-            previousNode = current;
-            return searchRemove(temp, oldData);
-        }
-    }
-    else {
-        if (current->getRightChild() == NULL) {
-            return false;
-        }
-        else {
-            Node *temp = current->getRightChild();
-            previousNode = current;
-            return searchRemove(temp, oldData);
+        else if (deleteRight){
+            current->setRightChild(NULL);
         }
     }
+    else if(deleteMe->getLeftChild() == NULL && deleteMe -> getRightChild() != NULL){
+        if (deleteLeft){
+            current->setLeftChild(deleteMe->getRightChild());
+        }
+        else if (deleteRight){
+            current->setRightChild(deleteMe->getRightChild());
+        }
+        else if (deleteMe == root){
+            newRoot = deleteMe->getRightChild();
+        }
+    }
+    else if(deleteMe->getLeftChild() != NULL && deleteMe -> getRightChild() == NULL){
+        if (deleteLeft){
+            current->setLeftChild(deleteMe->getLeftChild());
+        }
+        else if (deleteRight){
+            current->setRightChild(deleteMe->getLeftChild());
+        }
+        else if (deleteMe == root){
+            newRoot = deleteMe->getLeftChild();
+        }
+    }
+    else{
+        Node* replacement = deleteMe->getLeftChild();
+        while(replacement->getRightChild() != NULL){
+            replacement = replacement->getRightChild();
+        }
+        Node* replacementParent = deleteMe;
+        while (replacementParent->getRightChild() != replacement){
+            replacementParent = replacementParent->getRightChild();
+        }
+        if (replacementParent == deleteMe){
+            replacementParent->setLeftChild(replacement->getLeftChild());
+        }
+        else{
+            replacementParent->setRightChild(replacement->getLeftChild());
+        }
+        if (deleteLeft){
+            current->setLeftChild(replacement);
+        }
+        else if (deleteRight){
+            current->setRightChild(replacement);
+        }
+        else if (deleteMe == root){
+            newRoot = replacement;
+        }
+        replacement->setLeftChild(deleteMe->getLeftChild());
+        replacement->setRightChild(deleteMe->getRightChild());
+    }
+    if (deleteMe == root){
+        delete deleteMe;
+        root = newRoot;
+    }
+    else{
+        delete deleteMe;
+    }
+    return true;
 }

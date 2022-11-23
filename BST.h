@@ -2,16 +2,16 @@
 
 #include "Node.h"
 #include "BSTInterface.h"
+#include <queue>
 
 using namespace std;
 
 class BST : public BSTInterface {
 private:
 	Node* root;
-	bool search(Node*& root, int newData);
+	bool searchAdd(Node*& root, int newData);
 	bool searchRemove(Node*& root, int oldData);
-	void recursiveClear(Node*& _root);
-	Node* previousNode;
+	void recursiveClear(Node*& _root, queue<Node*>& thingsToDelete);
 public:
 	BST();
 	~BST();

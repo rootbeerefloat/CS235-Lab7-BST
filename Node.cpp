@@ -5,6 +5,7 @@ Node::Node(int _data){
     left = NULL;
     right = NULL;
 }
+
 Node::~Node(){}
 
 /*
